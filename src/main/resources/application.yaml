@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    username: root
+    password:
+    url: jdbc:mysql://localhost:3306/EmployeeManager?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #开启_method
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+#mybatis配置  别名
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.ruanyuan.pojo
+  config-location: classpath:mybatis-config.xml #配置pagehelper
+

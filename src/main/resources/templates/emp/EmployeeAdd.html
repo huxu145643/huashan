@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Dashboard Template for Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<link href="asserts/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="asserts/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+
+	<body>
+	<!--引入头部标签-->
+	<div th:replace="~{public/top :: top}"></div>
+
+	<div class="container-fluid">
+		<div class="row">
+			<!--引入左部菜单-->
+			<div th:replace="~{public/left :: left(activeUri='/EmployeeList')}"></div>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<div class="table-responsive">
+						<h3 th:text="${emp!=null}?'修改员工':'添加员工'"></h3>
+						<form th:method="post" th:action="@{/addEmployee}">
+							<input type="hidden" name="_method" value="put" th:if="${emp!=null}">
+							<input type="hidden" name="empno" th:value="${emp.empno}" th:if="${emp!=null}">
+							<div class="form-group">
+								<label>员工名称：</label>
+								<input type="text" class="form-control" th:name="ename" th:value="${emp!=null}?${emp.ename}">
+							</div>
+							<div class="form-group">
+								<label>员工工作：</label>
+								<input type="text" class="form-control" th:name="job" th:value="${emp!=null}?${emp.job}">
+							</div>
+							<div class="form-group">
+								<label>入职时间：</label>
+								<input type="datetime" class="form-control" th:name="hiredate" th:value="${emp!=null}?${emp.hiredate}">
+							</div>
+							<div class="form-group">
+								<label>工资：</label>
+								<input type="text" class="form-control" th:name="sal" th:value="${emp!=null}?${emp.sal}">
+							</div>
+							<div class="form-group">
+								<label>奖金：</label>
+								<input type="text" class="form-control" th:name="comm" th:value="${emp!=null}?${emp.comm}">
+							</div>
+							<div class="form-group">
+								<label>所属部门：</label>
+								<select th:name="deptno.deptno">
+									<option th:each="dep:${deps}" th:value="${dep.deptno}"  th:selected="${emp!=null}?${emp.deptno.deptno==dep.deptno}">[[${dep.dname}]]</option>
+								</select>
+							</div>
+							<button type="submit" class="btn btn-default">提交</button>
+							<a href="javascript:History.go(-1)">返回</a>
+						</form>
+					</div>
+				</main>
+			</div>
+		</div>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+		<script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+		<script type="text/javascript" src="asserts/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+
+		<!-- Icons -->
+		<script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/js/feather.min.js}"></script>
+		<script>
+			feather.replace()
+		</script>
+
+		<!-- Graphs -->
+		<script type="text/javascript" src="asserts/js/Chart.min.js" th:src="@{/js/Chart.min.js}"></script>
+		<script>
+			var ctx = document.getElementById("myChart");
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+					datasets: [{
+						data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+						lineTension: 0,
+						backgroundColor: 'transparent',
+						borderColor: '#007bff',
+						borderWidth: 4,
+						pointBackgroundColor: '#007bff'
+					}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: false
+							}
+						}]
+					},
+					legend: {
+						display: false,
+					}
+				}
+			});
+		</script>
+
+	</body>
+
+</html>

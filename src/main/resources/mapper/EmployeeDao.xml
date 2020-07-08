@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruanyuan.dao.EmployeeDao">
+
+    <!--查询所有员工信息-->
+    <select id="getAllEmployee" resultMap="resultMap1">
+        select * from employee
+    </select>
+    <resultMap id="resultMap1" type="employee">
+        <association property="deptno" column="deptno" select="com.ruanyuan.dao.DepartmentDao.getDepartmentById"></association>
+    </resultMap>
+
+    <insert id="addEmployee" parameterType="employee">
+        insert into employee(ename,job,hiredate,sal,comm,deptno)value (#{ename},#{job},#{hiredate},#{sal},#{comm},#{deptno.deptno})
+    </insert>
+
+    <select id="getEmpById" parameterType="int" resultMap="resultMap1">
+        select * from employee where empno=#{empno}
+    </select>
+
+    <update id="updateEmployeeById" parameterType="employee" >
+        update employee set ename=#{ename},job=#{job},hiredate=#{hiredate},sal=#{sal},comm=#{comm},deptno=#{deptno.deptno} where empno=#{empno}
+    </update>
+
+    <delete id="deleteEmployee" parameterType="string">
+        delete from employee where empno in
+        <foreach collection="array" open="(" separator="," close=")" item="item">
+            ${item}
+        </foreach>
+    </delete>
+
+    <select id="getEmpByTj" parameterType="employee" resultMap="resultMap1">
+        select * from employee
+        <where>
+            <if test="ename!=null and ename!=''">
+                and ename like concat ('%',#{ename},'%')
+            </if>
+            <if test="hiredate!=null and hiredate!=''">
+                and hiredate &lt; #{hiredate}
+            </if>
+            <if test="sal!=null and sal!=''">
+                and sal &lt; #{sal}
+            </if>
+            <if test="deptno.deptno!='' and deptno.deptno!=0">
+                and deptno=#{deptno.deptno}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruanyuan.dao.DepartmentDao">
+    <!--查询所有部门-->
+    <select id="getAllDepartment" resultType="department">
+        select * from department
+    </select>
+
+    <!--添加部门-->
+    <insert id="addDepartment" parameterType="department">
+        insert into department(dname,loc)value(#{dname},#{loc})
+    </insert>
+
+    <!--根据id查询部门-->
+    <select id="getDepartmentById" parameterType="int" resultType="department">
+        select * from department where deptno=#{deptno}
+    </select>
+
+    <!--修改部门-->
+    <update id="updateDepartment" parameterType="department">
+        update department set dname=#{dname},loc=#{loc} where deptno=#{deptno}
+    </update>
+
+    <!--删除部门-->
+    <delete id="deleteDepartment" parameterType="int">
+        delete from department where deptno=#{deptno}
+    </delete>
+</mapper>
