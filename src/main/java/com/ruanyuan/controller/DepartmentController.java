@@ -66,4 +66,8 @@ public class DepartmentController {
             return 0;
         }
     }
+
+    public int ad(){
+        return 0;
+    }
 }
